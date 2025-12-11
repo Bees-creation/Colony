@@ -7,6 +7,12 @@
     <Filter Include="Colony\Events">
       <UniqueIdentifier>{5D8C1DF4-C94C-992A-9287-E2A7FE06DE06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Colony\PlatForm">
+      <UniqueIdentifier>{ED92BE8D-591E-2C52-622F-AF46CE398852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Colony\PlatForm\Windows">
+      <UniqueIdentifier>{27DA72C1-9311-BB58-9C1B-1F7C08D2E151}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Colony.h" />
@@ -31,21 +37,39 @@
     <ClInclude Include="src\Colony\Events\MouseEvent.h">
       <Filter>Colony\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Colony\Layer.h">
+      <Filter>Colony</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\LayerStack.h">
+      <Filter>Colony</Filter>
+    </ClInclude>
     <ClInclude Include="src\Colony\Log.h">
       <Filter>Colony</Filter>
     </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\Windows\WindowsWindow.h">
+      <Filter>Colony\PlatForm\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Window.h">
+      <Filter>Colony</Filter>
+    </ClInclude>
     <ClInclude Include="src\clpcl.h" />
-    <ClInclude Include="src\Colony\Window.h" />
-    <ClInclude Include="src\Colony\PlatForm\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colony\Application.cpp">
       <Filter>Colony</Filter>
     </ClCompile>
+    <ClCompile Include="src\Colony\Layer.cpp">
+      <Filter>Colony</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\LayerStack.cpp">
+      <Filter>Colony</Filter>
+    </ClCompile>
     <ClCompile Include="src\Colony\Log.cpp">
       <Filter>Colony</Filter>
     </ClCompile>
+    <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp">
+      <Filter>Colony\PlatForm\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\clpcl.cpp" />
-    <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>

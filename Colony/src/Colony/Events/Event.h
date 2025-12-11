@@ -3,7 +3,7 @@
 #include "Colony/Core.h"
 #include "Colony/Log.h"
 
-#include <string>
+#include <sstream>
 #include <functional>
 
 namespace Colony
@@ -50,6 +50,8 @@ namespace Colony
 		{
 			return GetCategoryFlags() & category;
 		}
+
+		inline bool Handled() const { return m_Handled; }    // 返回事件是否被处理
 	protected:
 		bool m_Handled = false;
 	};

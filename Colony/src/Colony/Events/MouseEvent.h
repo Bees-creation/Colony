@@ -17,7 +17,7 @@ namespace Colony
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
+			ss << "鼠标移动事件: " << m_MouseX << ", " << m_MouseY;
 			return ss.str();
 		}
 
@@ -40,7 +40,7 @@ namespace Colony
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseMovedEvent: " << GetXOffset() << ", " << GetYOffset();
+			ss << "鼠标滚轮事件: " << GetXOffset() << ", " << GetYOffset();
 			return ss.str();
 		}
 
@@ -74,7 +74,7 @@ namespace Colony
 		std::string ToString() const
 		{
 			std::stringstream ss;
-			ss << "MouseButtonPressedEvent: " << m_Button;
+			ss << "鼠标按压事件: " << m_Button;
 			return ss.str();
 		}
 
@@ -91,7 +91,7 @@ namespace Colony
 		std::string ToString() const
 		{
 			std::stringstream ss;
-			ss << "MouseButtonReleasedEvent: " << m_Button;
+			ss << "鼠标松开事件: " << m_Button;
 			return ss.str();
 		}
 
