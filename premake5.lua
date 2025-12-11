@@ -10,6 +10,12 @@
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"    -- 输出目录
 
+-- 相对根目录的附加包含目录路径
+IncludeDir = {}
+IncludeDir["GLFW"] = "Colony/vendor/GLFW/include"
+
+include "Colony/vendor/GLFW"
+
 project "Colony"    -- 生成Colony项目
 	location "Colony"
 	kind "SharedLib"
@@ -30,7 +36,14 @@ project "Colony"    -- 生成Colony项目
 	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include",    -- 附加包含目录
-		"Colony/src"
+		"Colony/src",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

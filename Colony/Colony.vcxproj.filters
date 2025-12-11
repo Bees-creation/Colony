@@ -35,6 +35,8 @@
       <Filter>Colony</Filter>
     </ClInclude>
     <ClInclude Include="src\clpcl.h" />
+    <ClInclude Include="src\Colony\Window.h" />
+    <ClInclude Include="src\Colony\PlatForm\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colony\Application.cpp">
@@ -44,5 +46,6 @@
       <Filter>Colony</Filter>
     </ClCompile>
     <ClCompile Include="src\clpcl.cpp" />
+    <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp" />
   </ItemGroup>
 </Project>
