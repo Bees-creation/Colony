@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "Colony/Window.h"
-
 #include "GLFW/glfw3.h"
 
 namespace Colony

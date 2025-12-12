@@ -13,8 +13,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"    -- 输出目�
 -- 相对根目录的附加包含目录路径
 IncludeDir = {}
 IncludeDir["GLFW"] = "Colony/vendor/GLFW/include"
+IncludeDir["Glad"] = "Colony/vendor/Glad/include"
 
 include "Colony/vendor/GLFW"
+include "Colony/vendor/Glad"
 
 project "Colony"    -- 生成Colony项目
 	location "Colony"
@@ -30,19 +32,21 @@ project "Colony"    -- 生成Colony项目
 	files
 	{
 		"%{prj.name}/src/**.h",     -- 添加文件到工作区
-		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/src/**.cpp"
 	}
 
 	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include",    -- 附加包含目录
 		"Colony/src",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -54,7 +58,8 @@ project "Colony"    -- 生成Colony项目
 		defines
 		{
 			"CL_PLATFORM_WINDOWS",    -- windows平台 -- 这是代码内ifdef需要
-			"CL_BUILD_DLL"    -- 是否生成为dll -- 代码内ifdef需要
+			"CL_BUILD_DLL",    -- 是否生成为dll -- 代码内ifdef需要
+			"GLFW_INCLUDE_NONE"    -- GLFW在include时排除所有系统级别的OpenGL头文件
 		}
 
 		postbuildcommands -- 生成后处理命令 -- 复制文件
