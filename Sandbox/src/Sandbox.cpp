@@ -10,7 +10,7 @@ public:
 
 	void OnUpdate() override
 	{
-		CL_INFO("ExampleLayer::Update");
+		//CL_INFO("ExampleLayer::Update");
 	}
 
 	void OnEvent(Colony::Event& event) override
@@ -25,6 +25,7 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Colony::ImGuiLayer());
 	}
 
 	~Sandbox()

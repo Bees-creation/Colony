@@ -95,6 +95,6 @@ namespace Colony
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(MouseButtonPressed)
+		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
 }

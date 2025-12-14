@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>clpcl.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CL_PLATFORM_WINDOWS;CL_BUILD_DLL;GLFW_INCLUDE_NONE;CL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -105,7 +105,7 @@ IF EXIST "$(SolutionDir)\bin\Debug-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q 
       <PrecompiledHeaderFile>clpcl.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CL_PLATFORM_WINDOWS;CL_BUILD_DLL;GLFW_INCLUDE_NONE;CL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -134,7 +134,7 @@ IF EXIST "$(SolutionDir)\bin\Release-windows-x86_64\Colony\Colony.dll"\ (xcopy /
       <PrecompiledHeaderFile>clpcl.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CL_PLATFORM_WINDOWS;CL_BUILD_DLL;GLFW_INCLUDE_NONE;CL_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -166,18 +166,23 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="src\Colony\Events\Event.h" />
     <ClInclude Include="src\Colony\Events\KeyEvent.h" />
     <ClInclude Include="src\Colony\Events\MouseEvent.h" />
+    <ClInclude Include="src\Colony\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Colony\Layer.h" />
     <ClInclude Include="src\Colony\LayerStack.h" />
     <ClInclude Include="src\Colony\Log.h" />
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRendererLoader.h" />
     <ClInclude Include="src\Colony\PlatForm\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Colony\Window.h" />
     <ClInclude Include="src\clpcl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colony\Application.cpp" />
+    <ClCompile Include="src\Colony\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Colony\Layer.cpp" />
     <ClCompile Include="src\Colony\LayerStack.cpp" />
     <ClCompile Include="src\Colony\Log.cpp" />
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\clpcl.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -189,6 +194,9 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     </ProjectReference>
     <ProjectReference Include="vendor\Glad\Glad.vcxproj">
       <Project>{BDD6857C-A90D-870D-52FA-6C103E10030F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

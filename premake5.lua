@@ -14,9 +14,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"    -- 输出目�
 IncludeDir = {}
 IncludeDir["GLFW"] = "Colony/vendor/GLFW/include"
 IncludeDir["Glad"] = "Colony/vendor/Glad/include"
+IncludeDir["ImGui"] = "Colony/vendor/imgui"
 
 include "Colony/vendor/GLFW"
 include "Colony/vendor/Glad"
+include "Colony/vendor/imgui"
 
 project "Colony"    -- 生成Colony项目
 	location "Colony"
@@ -40,13 +42,15 @@ project "Colony"    -- 生成Colony项目
 		"%{prj.name}/vendor/spdlog/include",    -- 附加包含目录
 		"Colony/src",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 

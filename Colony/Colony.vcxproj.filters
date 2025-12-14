@@ -7,8 +7,14 @@
     <Filter Include="Colony\Events">
       <UniqueIdentifier>{5D8C1DF4-C94C-992A-9287-E2A7FE06DE06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Colony\ImGui">
+      <UniqueIdentifier>{83AA898B-6F0D-1930-1893-51E604D5E4B2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Colony\PlatForm">
       <UniqueIdentifier>{ED92BE8D-591E-2C52-622F-AF46CE398852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Colony\PlatForm\OpenGL">
+      <UniqueIdentifier>{810FB512-6D09-DE64-5676-7475420F44D1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Colony\PlatForm\Windows">
       <UniqueIdentifier>{27DA72C1-9311-BB58-9C1B-1F7C08D2E151}</UniqueIdentifier>
@@ -37,6 +43,9 @@
     <ClInclude Include="src\Colony\Events\MouseEvent.h">
       <Filter>Colony\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Colony\ImGui\ImGuiLayer.h">
+      <Filter>Colony\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\Colony\Layer.h">
       <Filter>Colony</Filter>
     </ClInclude>
@@ -45,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="src\Colony\Log.h">
       <Filter>Colony</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Colony\PlatForm\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRendererLoader.h">
+      <Filter>Colony\PlatForm\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Colony\PlatForm\Windows\WindowsWindow.h">
       <Filter>Colony\PlatForm\Windows</Filter>
@@ -58,6 +73,9 @@
     <ClCompile Include="src\Colony\Application.cpp">
       <Filter>Colony</Filter>
     </ClCompile>
+    <ClCompile Include="src\Colony\ImGui\ImGuiLayer.cpp">
+      <Filter>Colony\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\Colony\Layer.cpp">
       <Filter>Colony</Filter>
     </ClCompile>
@@ -66,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="src\Colony\Log.cpp">
       <Filter>Colony</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Colony\PlatForm\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp">
       <Filter>Colony\PlatForm\Windows</Filter>

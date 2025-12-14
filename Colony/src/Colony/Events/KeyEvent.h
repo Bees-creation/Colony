@@ -55,4 +55,21 @@ namespace Colony
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
+
+	class COLONY_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) {
+		}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "键盘输入事件: " << m_KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
 }

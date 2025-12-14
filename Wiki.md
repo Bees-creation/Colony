@@ -91,7 +91,7 @@ bool IsInCategory(EventCategory category);   // 检查事件是否属于某个�
 class EventDispatcher;                       // 事件分发器类
 EventFn = function<bool(Event&)>;            // 事件回调函数类型定义
 EventDispatcher(Event& event);               // 构造函数，传入要分发的事件引用
-bool Dispatch<T>(EventFn func);              // 分发事件，如果事件类型匹配则调用回调函数
+bool Dispatch(EventFn<T> func);              // 分发事件，如果事件类型匹配则调用回调函数
 ```
 <Colony/Events/ApplicationEvent.h>
 ```cpp
@@ -172,6 +172,24 @@ vector<Layer*>::iterator begin();              // 获取图层堆栈开始迭代
 vector<Layer*>::iterator end();                // 获取图层堆栈结束迭代器
 ```
 
+## GLFW图形库 / Glad加载库
+GLFW图形库用于创建窗口和处理输入事件，Colony在加载GLFW库时定义了`GLFW_INCLUDE_NONE`以防止GLFW自动包含OpenGL头文件。
+<GLFW/glfw3.h>
+Glad加载库用于加载OpenGL函数指针。
+<glad/glad.h>
+GLFW库与Glad库是第三方库，不属于Colony引擎的一部分，Colony封装了它们以简化窗口和OpenGL的使用。
+
+## ImGui图形用户界面库
+ImGui图形用户界面库用于创建调试和开发时的图形用户界面，Colony集成了ImGui以便在应用程序中使用。
+<Colony/ImGui/ImGuiLayer.h>
+```cpp
+class ImGuiLayer;                             // ImGui图层类，继承自Layer
+void OnAttach();                              // 图层附加函数，初始化ImGui上下文和样式
+void OnDetach();                              // 图层移除函数
+void OnUpdate();                              // 图层更新函数
+void OnEvent(Event& event);                   // 事件处理函数
+```
+
 # Notes / Realizations / Q&A
 
 ## 窗口中断事件的实现逻辑
@@ -179,22 +197,40 @@ vector<Layer*>::iterator end();                // 获取图层堆栈结束迭代
 1. 窗口接收到中断事件（例如用户点击关闭按钮），GLFW会挂起该事件。
 2. 窗口的消息循环在`OnUpdate`函数中被调用，处理所有挂起的事件。
 3. 对于每个挂起的事件，窗口会调用预先设置的事件回调函数，该函数GLFW函数（如`glfwSetWindowCloseCallback`）注册。
-4. 事件回调函数创建相应的事件对象（如`WindowCloseEvent`）并调用`EventCallbackFn`类型的回调函数。
-5. `EventCallbackFn`回调函数由`SetEventCallback`函数设置，通常绑定到Application的`OnEvent`方法。
+4. 事件回调函数创建相应的事件实例（如`WindowCloseEvent`）并调用自身的`EventCallback`回调函数。
+5. 在Windows系统的窗口实现`<WindowsWindow.h>`中，`EventCallbackFn`回调函数由`SetEventCallback()`函数设置，该设置函数接收一个`EventCallbackFn&`参数，
+   也就是`void fucn(Event& e)`类型函数的引用，绑定到自身成员结构体的`EventCallback()`成员函数，也就是上一步调用的回调函数。在`<Application.h>`中，
+   构造函数`Application()`调用了`SetEventCallback()`函数，参数是`std::bind`的宏定义`BIND_EVENT_FN(OnEvent)`相当于`Application::OnEvent(Event& e)`，
+   所以经过这些处理之后`EventCallback(Event& e)`和`Application::OnEvent(Event& e)`是相同对象的不同名字（引用），这就是为什么被挂起的事件最终会调用
+   `OnEvent()`函数。
 6. 应用程序的`OnEvent`方法使用`EventDispatcher`分发事件到各个层。
 7. `OnEvent`方法同时检查事件是否被标记为已处理（`e.Handled`），如果是，则停止进一步传播。
 8. `OnEvent`方法最后将日志记录到控制台，显示事件信息。
 总结得到下列流程图
-用户操作 -> GLFW挂起 -> 轮询处理 -> 事件回调 -> 创建事件对象 -> 调用回调函数 -> 事件分发 -> 事件处理 -> 日志记录
+用户操作 -> GLFW挂起 -> 轮询处理 -> 事件回调 -> 创建事件实例 -> 调用回调函数 -> 事件分发 -> 事件处理 -> 日志记录
 ### Q&A
-1. GLFW挂起是怎么做到的？
-GLFW使用操作系统的消息队列机制来接收窗口事件。当用户与窗口交互时，操作系统会将相应的事件消息放入消息队列中。
-2. 事件回调函数是如何注册的？
-事件回调函数通过GLFW提供的注册函数（如`glfwSetWindowCloseCallback`）进行注册。这些函数允许开发者指定当特定事件发生时调用的回调函数。
-3. 事件分发器是如何工作的？
-事件分发器（`EventDispatcher`）使用模板函数`Dispatch<T>`来检查传入的事件类型是否与预期类型匹配。如果匹配，则调用提供的回调函数，并将事件对象传递给它。
-4. 事件处理标志是如何设置的？
-在事件处理函数中，开发者可以通过设置事件对象的`Handled`属性来标记事件是否已被处理。如果设置为`true`，则表示事件已被处理，不需要进一步传播。
+Q: GLFW挂起是怎么做到的？
+A:GLFW使用操作系统的消息队列机制来接收窗口事件。当用户与窗口交互时，操作系统会将相应的事件消息放入消息队列中。
+Q: 事件回调函数是如何注册的？
+A: 事件回调函数通过GLFW提供的注册函数（如`glfwSetWindowCloseCallback`）进行注册。这些函数允许开发者指定当特定事件发生时调用的回调函数。
+Q: 事件处理标志是如何设置的？
+A: 在事件处理函数通过设置事件实例的`Handled`属性来标记事件是否已被处理。如果设置为`true`，则表示事件已被处理，不需要进一步传播。
+
+## OnEvent()函数 / 事件分发器的语法
+在Application类的`OnEvent()`函数是由GLFW事件挂起调用的，在该函数中调用了事件分发器、日志打印和轮询在LayerStack中的每一个堆栈的`OnEvent()`函数，直到某一层的
+处理函数处理事件并将标志位`m_Handled`置为`true`，然后跳出循环，阻止事件的进一步传播。所有`OnEvent()`事件回调函数中都会创建事件分发器，并让事件分发器与
+各个事件类型比较，然后进入对应的事件处理函数。
+在事件回调函数中调用`EventDispatcher dispatcher(e)`创建事件分发器实例，构造函数将父类引用`m_Event`设为子类实例`e`，此时引用不能访问子类对象。调用`Dispatch()`
+函数，这个函数选择一个事件类型，接收一个任意类型事件处理函数`EventFn`作为参数，`EventFn<T> func`相当于`bool func(T& e)`，说明事件回调函数的参数类型为T&，
+返回值为bool，`Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose))`相当于`Dispatch(Application::OnWindowClose(WindowCloseEvent& e))`。进入分发函数，
+首先比较`m_Event.GetEventType()`和`T::GetStaticType()`，后者在本例中被替换为`WindowCloseEvent::GetStaticType()`，如果比对通过，则调用`func(*(T*)&m_Event)`，
+在本例中相当于`OnWindowClose(*(WindowCloseEvent*)&m_Event)`，也就是将父类引用强制类型转换为子类引用，逻辑是`&m_Event`获取事件指针-> `(T*)`转换为子类指针->
+`*`解引用该指针以获得`T&`类型的事件实例，然后传入到事件处理函数中，处理结果返回到事件实例的m_Handled对象中。
+### Q&A
+Q: 为什么`OnEvent()`函数要嵌套，在应用程序类的回调函数调用图层堆栈的回调函数，而不是应用程序和图层堆栈各自回调？
+A: 因为实际上只有GLFW通过操作系统挂起了事件，并通过轮询检测到事件标志位，然后调用对应回调函数，该回调函数中含有`OnEvent()`语句，也即应用程序的回调函数语句，
+   而图层并没有这种事件挂起功能。实际上，“图层”是在窗口范围内显示的，类似于“在坐标(x,y)发生了鼠标按下”这样的事件还是由窗口检测到，但是窗口并不需要响应
+   这种事件，所以事件应当被传递到图层堆栈。实际要响应的是图层，而挂起事件的一直是窗口。
 
 ## 图层堆栈的数据结构图解
 1. 入栈操作
@@ -222,3 +258,34 @@ GLFW使用操作系统的消息队列机制来接收窗口事件。当用户与�
 m_layerInsert指针始终指向最后一个普通图层的下一个位置，确保新压入的普通图层总是插入到覆盖图层之前。
 而覆盖图层总是添加到堆栈的顶部，不受m_layerInsert指针的影响，也不影响指针的位置。
 vector在增删数据时会自动调整内部元素的位置，因此不需要手动移动其他图层的位置。
+
+## GUI图层相关 / 关于ImGuiLayer类函数的重写
+对于每一个GUI图层的实例，入栈调用`OnAttach()`函数，包括以下内容：
+调用`ImGui::CreateContext();`以生成上下文；
+调用`ImGui::GetIO()`以获取输入输出接口，使用`ImGuiIO&`类型的变量储存，假设变量名为`io`；
+调用`ImGui_ImplOpenGL3_Init();`函数以初始化ImGui上下文。
+
+对于每一个GUI图层的实例，在Application的轮询语句中调用`OnUpdate()`函数以更新图层状态，每调用一次为刷新一帧，包括以下内容：
+调用`ImGui::GetIO()`以获取输入输出接口，使用`ImGuiIO&`类型的变量储存，假设变量名为`io`；
+获取Application实例的引用，以调用`io.DisplaySize = ImVec2(GetWidth(), GetHeight());`，设定GUI基于该大小的窗口显示；
+声明变量`float time`记录当前时间，`ImGuiLayer::m_Time`记录上一帧事件，调用`io.DeltaTime`以设置当前帧与上一帧的时间差；
+调用`ImGui_ImplOpenGL3_NewFrame()`和`ImGui::NewFrame()`以新建GUI图窗；
+声明变量`static bool show`记录显示状态，调用`ImGui::ShowDemoWindow(&show);`设置显示窗口；
+调用`ImGui::Render();`和`ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());`进行渲染和显示渲染后图窗。
+### Q&A
+Q: 原作者使用的ImGui与现在所使用的ImGui（2025/12/13前后的版本）有何差异？
+A: 版本更新之后API接口有很多修改，我为此耗费了很多不必要的精力，然而最终我也不明白这个新接口是如何运作的，这是一个待完成的工作。在`imgui.cpp`中，我修改了
+   10025至10033行的代码，`GetMergedModsFromKeys()`函数的代码，原代码如下
+```
+static ImGuiKeyChord GetMergedModsFromKeys()
+{
+    ImGuiKeyChord mods = 0;
+    if (ImGui::IsKeyDown(ImGuiMod_Ctrl))     { mods |= ImGuiMod_Ctrl; }
+    if (ImGui::IsKeyDown(ImGuiMod_Shift))    { mods |= ImGuiMod_Shift; }
+    if (ImGui::IsKeyDown(ImGuiMod_Alt))      { mods |= ImGuiMod_Alt; }
+    if (ImGui::IsKeyDown(ImGuiMod_Super))    { mods |= ImGuiMod_Super; }
+    return mods;
+}
+```
+   我把`if`条件更改为了`ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)`，相应的其他键也做了相应更改。这在我的键盘输入中断处理
+   函数中能够正确运行。
