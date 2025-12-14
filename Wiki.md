@@ -287,5 +287,5 @@ static ImGuiKeyChord GetMergedModsFromKeys()
     return mods;
 }
 ```
-   我把`if`条件更改为了`ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)`，相应的其他键也做了相应更改。这在我的键盘输入中断处理
-   函数中能够正确运行。
+   我把`if`条件更改为了`ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)`，相应的其他键也做了更改。这在我的键盘输入中断处理函数
+   中能够正确运行。

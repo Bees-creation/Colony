@@ -24,6 +24,7 @@ project "Colony"    -- 生成Colony项目
 	location "Colony"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")    -- build文件.dll/.lib/.exe的输出目录
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")    -- build中间文件.o的输目录
@@ -56,7 +57,6 @@ project "Colony"    -- 生成Colony项目
 
 	filter "system:windows"
 		cppdialect "C++17"    -- C++标准
-		staticruntime "On"    -- 静态运行库
 		systemversion "latest"    -- 最新版本的SDK
 
 		defines
@@ -76,23 +76,24 @@ project "Colony"    -- 生成Colony项目
 
 	filter "configurations:Debug"
 		defines "CL_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "CL_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "CL_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -116,7 +117,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -128,15 +128,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "CL_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "CL_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "CL_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
