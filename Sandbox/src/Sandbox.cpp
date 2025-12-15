@@ -1,8 +1,5 @@
 ﻿#include <Colony.h>
 
-
-
-
 class ExampleLayer : public Colony::Layer
 {
 public:

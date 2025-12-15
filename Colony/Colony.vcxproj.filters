@@ -111,9 +111,6 @@
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\glm\glm\detail\_features.hpp">
-      <Filter>vendor\glm\glm\detail</Filter>
-    </ClInclude>
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp">
       <Filter>vendor\glm\glm\detail</Filter>
     </ClInclude>
@@ -289,9 +286,6 @@
       <Filter>vendor\glm\glm\detail</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\detail\type_vec4.inl">
-      <Filter>vendor\glm\glm\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="vendor\glm\glm\detail\type_vec4_simd.inl">
       <Filter>vendor\glm\glm\detail</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\detail\type_vec_simd.inl">
@@ -1041,7 +1035,7 @@
     <ClInclude Include="vendor\glm\glm\gtx\fast_trigonometry.inl">
       <Filter>vendor\glm\glm\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\glm\glm\gtx\float_notmalize.inl">
+    <ClInclude Include="vendor\glm\glm\gtx\float_normalize.inl">
       <Filter>vendor\glm\glm\gtx</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\gtx\functions.hpp">
@@ -1084,6 +1078,12 @@
       <Filter>vendor\glm\glm\gtx</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\gtx\io.inl">
+      <Filter>vendor\glm\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\glm\glm\gtx\iteration.hpp">
+      <Filter>vendor\glm\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\glm\glm\gtx\iteration.inl">
       <Filter>vendor\glm\glm\gtx</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\gtx\log_base.hpp">
@@ -1257,6 +1257,12 @@
     <ClInclude Include="vendor\glm\glm\gtx\string_cast.inl">
       <Filter>vendor\glm\glm\gtx</Filter>
     </ClInclude>
+    <ClInclude Include="vendor\glm\glm\gtx\structured_bindings.hpp">
+      <Filter>vendor\glm\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\glm\glm\gtx\structured_bindings.inl">
+      <Filter>vendor\glm\glm\gtx</Filter>
+    </ClInclude>
     <ClInclude Include="vendor\glm\glm\gtx\texture.hpp">
       <Filter>vendor\glm\glm\gtx</Filter>
     </ClInclude>
@@ -1359,6 +1365,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Colony\ImGui\ImGuiKeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colony\Application.cpp">

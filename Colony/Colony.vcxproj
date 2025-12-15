@@ -166,6 +166,7 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="src\Colony\Events\Event.h" />
     <ClInclude Include="src\Colony\Events\KeyEvent.h" />
     <ClInclude Include="src\Colony\Events\MouseEvent.h" />
+    <ClInclude Include="src\Colony\ImGui\ImGuiKeyCodes.h" />
     <ClInclude Include="src\Colony\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Colony\Input.h" />
     <ClInclude Include="src\Colony\KeyCodes.h" />
@@ -180,7 +181,6 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="src\Colony\Window.h" />
     <ClInclude Include="src\clpcl.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
-    <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_noise.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_swizzle.hpp" />
@@ -240,7 +240,6 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="vendor\glm\glm\detail\type_vec3.inl" />
     <ClInclude Include="vendor\glm\glm\detail\type_vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\type_vec4.inl" />
-    <ClInclude Include="vendor\glm\glm\detail\type_vec4_simd.inl" />
     <ClInclude Include="vendor\glm\glm\detail\type_vec_simd.inl" />
     <ClInclude Include="vendor\glm\glm\exponential.hpp" />
     <ClInclude Include="vendor\glm\glm\ext.hpp" />
@@ -490,7 +489,7 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="vendor\glm\glm\gtx\fast_square_root.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\fast_trigonometry.hpp" />
     <ClInclude Include="vendor\glm\glm\gtx\fast_trigonometry.inl" />
-    <ClInclude Include="vendor\glm\glm\gtx\float_notmalize.inl" />
+    <ClInclude Include="vendor\glm\glm\gtx\float_normalize.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\functions.hpp" />
     <ClInclude Include="vendor\glm\glm\gtx\functions.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\gradient_paint.hpp" />
@@ -505,6 +504,8 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="vendor\glm\glm\gtx\intersect.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\io.hpp" />
     <ClInclude Include="vendor\glm\glm\gtx\io.inl" />
+    <ClInclude Include="vendor\glm\glm\gtx\iteration.hpp" />
+    <ClInclude Include="vendor\glm\glm\gtx\iteration.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\log_base.hpp" />
     <ClInclude Include="vendor\glm\glm\gtx\log_base.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\matrix_cross_product.hpp" />
@@ -562,6 +563,8 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="vendor\glm\glm\gtx\std_based_type.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\string_cast.hpp" />
     <ClInclude Include="vendor\glm\glm\gtx\string_cast.inl" />
+    <ClInclude Include="vendor\glm\glm\gtx\structured_bindings.hpp" />
+    <ClInclude Include="vendor\glm\glm\gtx\structured_bindings.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\texture.hpp" />
     <ClInclude Include="vendor\glm\glm\gtx\texture.inl" />
     <ClInclude Include="vendor\glm\glm\gtx\transform.hpp" />
