@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Colony/vendor/GLFW/include"
 IncludeDir["Glad"] = "Colony/vendor/Glad/include"
 IncludeDir["ImGui"] = "Colony/vendor/imgui"
+IncludeDir["glm"] = "Colony/vendor/glm"
 
 include "Colony/vendor/GLFW"
 include "Colony/vendor/Glad"
@@ -35,7 +36,9 @@ project "Colony"    -- 生成Colony项目
 	files
 	{
 		"%{prj.name}/src/**.h",     -- 添加文件到工作区
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -44,7 +47,8 @@ project "Colony"    -- 生成Colony项目
 		"Colony/src",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -107,7 +111,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Colony/vendor/spdlog/include",
-		"Colony/src"
+		"Colony/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links

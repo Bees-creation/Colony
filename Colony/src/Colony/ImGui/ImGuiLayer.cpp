@@ -10,7 +10,7 @@
 
 namespace Colony
 {
-	ImGuiKey GLFWKeycodeToImGuiKeycode(int keycode);    // 键码映射
+	ImGuiKey GLFWKeyCodeToImGuiKeyCode(int keycode);    // 键码映射
 
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
@@ -102,20 +102,18 @@ namespace Colony
 	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.KeysData[GLFWKeycodeToImGuiKeycode(e.GetKeyCode()) - ImGuiKey_NamedKey_BEGIN].Down = true;
+		io.KeysData[GLFWKeyCodeToImGuiKeyCode(e.GetKeyCode()) - ImGuiKey_NamedKey_BEGIN].Down = true;
 		io.KeyCtrl = ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl);
 		io.KeyShift = ImGui::IsKeyDown(ImGuiKey_LeftShift) || ImGui::IsKeyDown(ImGuiKey_RightShift);
 		io.KeyAlt = ImGui::IsKeyDown(ImGuiKey_LeftAlt) || ImGui::IsKeyDown(ImGuiKey_RightAlt);
 		io.KeySuper = ImGui::IsKeyDown(ImGuiKey_LeftSuper) || ImGui::IsKeyDown(ImGuiKey_RightSuper);
-		printf("0x%x\n", io.KeyMods);
 		return false;
 	}
 
 	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.KeysData[GLFWKeycodeToImGuiKeycode(e.GetKeyCode()) - ImGuiKey_NamedKey_BEGIN].Down = false;
-		printf("0x%x\n", io.KeyMods);
+		io.KeysData[GLFWKeyCodeToImGuiKeyCode(e.GetKeyCode()) - ImGuiKey_NamedKey_BEGIN].Down = false;
 
 		return false;
 	}
@@ -140,11 +138,11 @@ namespace Colony
 		return false;
 	}
 
-	ImGuiKey GLFWKeycodeToImGuiKeycode(int keycode)
+	ImGuiKey GLFWKeyCodeToImGuiKeyCode(int keycode)
 	{
 		switch (keycode)
 		{
-			// 可打印字符
+			/* 可打印字符 */
 		case GLFW_KEY_SPACE: return ImGuiKey_Space;
 		case GLFW_KEY_APOSTROPHE: return ImGuiKey_Apostrophe  /* ' */;
 		case GLFW_KEY_COMMA: return ImGuiKey_Comma  /* , */;
@@ -193,7 +191,7 @@ namespace Colony
 		case GLFW_KEY_BACKSLASH: return ImGuiKey_Backslash  /* \ */;
 		case GLFW_KEY_RIGHT_BRACKET: return ImGuiKey_RightBracket  /* ] */;
 		case GLFW_KEY_GRAVE_ACCENT: return ImGuiKey_GraveAccent  /* ` */;
-			// 功能性字符
+			/* 功能性字符 */
 		case GLFW_KEY_ESCAPE: return ImGuiKey_Escape;
 		case GLFW_KEY_ENTER: return ImGuiKey_Enter;
 		case GLFW_KEY_TAB: return ImGuiKey_Tab;

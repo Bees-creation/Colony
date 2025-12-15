@@ -1,5 +1,8 @@
 ﻿#include <Colony.h>
 
+
+
+
 class ExampleLayer : public Colony::Layer
 {
 public:
@@ -10,12 +13,19 @@ public:
 
 	void OnUpdate() override
 	{
-		CL_INFO("ExampleLayer::Update");
+		if (Colony::Input::IsKeyPressed(CL_KEY_TAB))
+			CL_TRACE("按下了Tab键！（挂起）");
 	}
 
 	void OnEvent(Colony::Event& event) override
 	{
-		CL_INFO("{0}", event.ToString());
+		if (event.GetEventType() == Colony::EventType::KeyPressed)
+		{
+			Colony::KeyPressedEvent& e = (Colony::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == CL_KEY_TAB)
+				CL_TRACE("按下了Tab键！（事件）");
+			CL_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

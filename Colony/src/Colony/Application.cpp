@@ -6,6 +6,8 @@
 
 #include "Input.h"
 
+#include "glm/glm.hpp"
+
 namespace Colony
 {
 	Application* Application::s_Instance = nullptr;
@@ -41,7 +43,7 @@ namespace Colony
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
 
-		CL_CORE_TRACE("{0}", e.ToString());
+		//CL_CORE_TRACE("{0}", e.ToString());
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
@@ -66,9 +68,6 @@ namespace Colony
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
-
-			auto [x, y] = Input::GetMousePosition();
-			CL_CORE_TRACE("{0}, {1}", x, y);
 
 			m_Window->OnUpdate();
 		}
