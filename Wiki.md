@@ -8,6 +8,7 @@
 #define CL_ASSERT(x, ...)                   // 错误断言
 #define CL_CORE_ASSERT(x, ...)
 #define BIT(x)                              // 位处理
+#define CL_BIND_EVENT_FN(fn)                // 绑定成员函数
 ```
 应用程序模块定义了应用程序的生命周期管理。
 <Colony/Application.h>
@@ -16,6 +17,10 @@ class Application;                       // 应用程序类
 Application();                           // 初始化应用程序，包括窗口创建和事件系统
 void Run();                              // 运行应用程序主循环，处理事件和更新层
 void OnEvent(Event& e);                  // 事件处理函数，分发事件到各个层
+void PushLayer(Layer* layer);            // 将一个普通图层压入堆栈
+void PushOverlay(Layer* overlay);        // 将一个覆盖图层压入堆栈
+inline static Application& Get();        // 获取应用程序实例的指针
+inline Window& GetWindow();              // 获取应用程序窗口的指针
 #define BIND_EVENT_FN(x)                 // 绑定Application类的成员函数作为事件回调函数
 ```
 Colony模块包含了程序需要的所有核心功能和子模块，程序只需包含此头文件即可使用引擎的全部功能。
@@ -186,8 +191,9 @@ ImGui图形用户界面库用于创建调试和开发时的图形用户界面，
 class ImGuiLayer;                             // ImGui图层类，继承自Layer
 void OnAttach();                              // 图层附加函数，初始化ImGui上下文和样式
 void OnDetach();                              // 图层移除函数
-void OnUpdate();                              // 图层更新函数
-void OnEvent(Event& event);                   // 事件处理函数
+void OnImGuiRender();                         // ImGui窗口显示
+void Begin();                                 // ImGui刷新帧
+void End();                                   // ImGui渲染
 ```
 
 # Notes / Realizations / Q&A
@@ -259,16 +265,10 @@ m_layerInsert指针始终指向最后一个普通图层的下一个位置，确�
 而覆盖图层总是添加到堆栈的顶部，不受m_layerInsert指针的影响，也不影响指针的位置。
 vector在增删数据时会自动调整内部元素的位置，因此不需要手动移动其他图层的位置。
 
-## GUI图层相关 / 关于ImGuiLayer类函数的重写
-对于每一个GUI图层的实例，入栈调用`OnAttach()`函数，包括以下内容：
+## ImGui图层相关 / 关于ImGuiLayer类函数的重写
+对于每一个ImGui图层的实例，入栈调用`OnAttach()`函数，包括以下内容：
 调用`ImGui::CreateContext();`以生成上下文；
 调用`ImGui::GetIO()`以获取输入输出接口，使用`ImGuiIO&`类型的变量储存，假设变量名为`io`；
-调用`ImGui_ImplOpenGL3_Init();`函数以初始化ImGui上下文。
-
-对于每一个GUI图层的实例，在Application的轮询语句中调用`OnUpdate()`函数以更新图层状态，每调用一次为刷新一帧，包括以下内容：
-调用`ImGui::GetIO()`以获取输入输出接口，使用`ImGuiIO&`类型的变量储存，假设变量名为`io`；
-获取Application实例的引用，以调用`io.DisplaySize = ImVec2(GetWidth(), GetHeight());`，设定GUI基于该大小的窗口显示；
-声明变量`float time`记录当前时间，`ImGuiLayer::m_Time`记录上一帧事件，调用`io.DeltaTime`以设置当前帧与上一帧的时间差；
-调用`ImGui_ImplOpenGL3_NewFrame()`和`ImGui::NewFrame()`以新建GUI图窗；
-声明变量`static bool show`记录显示状态，调用`ImGui::ShowDemoWindow(&show);`设置显示窗口；
-调用`ImGui::Render();`和`ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());`进行渲染和显示渲染后图窗。
+配置`io.ConfigFlags`结构体以配置输入输出；
+调用`Application& app = Application::Get();`和`GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());`以获取窗口指针；
+调用`ImGui_ImplGlfw_InitForOpenGL(window, true);`和`ImGui_ImplOpenGL3_Init();`函数以设置平台/渲染器后端；

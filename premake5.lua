@@ -48,7 +48,6 @@ project "Colony"    -- 生成Colony项目
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		-- "%{IncludeDir.ImGui}/backends",    -- 临时项目
 		"%{IncludeDir.glm}"
 	}
 
@@ -57,7 +56,6 @@ project "Colony"    -- 生成Colony项目
 		"GLFW",
 		"Glad",
 		"ImGui",
-		-- "opengl32.lib"
 	}
 
 	filter "system:windows"
@@ -114,9 +112,6 @@ project "Sandbox"
 	{
 		"Colony/vendor/spdlog/include",
 		"Colony/src",
-		-- "%{IncludeDir.GLFW}",    -- 临时项目
-		-- "%{IncludeDir.Glad}",    --
-		-- "%{IncludeDir.ImGui}",    --
 		"%{IncludeDir.glm}"
 	}
 

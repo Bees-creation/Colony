@@ -69,9 +69,6 @@
     <ClInclude Include="src\Colony\Events\MouseEvent.h">
       <Filter>src\Colony\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Colony\ImGui\ImGuiKeyCodes.h">
-      <Filter>src\Colony\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="src\Colony\ImGui\ImGuiLayer.h">
       <Filter>src\Colony\ImGui</Filter>
     </ClInclude>

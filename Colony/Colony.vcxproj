@@ -163,7 +163,6 @@ IF EXIST "$(SolutionDir)\bin\Dist-windows-x86_64\Colony\Colony.dll"\ (xcopy /Q /
     <ClInclude Include="src\Colony\Events\Event.h" />
     <ClInclude Include="src\Colony\Events\KeyEvent.h" />
     <ClInclude Include="src\Colony\Events\MouseEvent.h" />
-    <ClInclude Include="src\Colony\ImGui\ImGuiKeyCodes.h" />
     <ClInclude Include="src\Colony\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Colony\Input.h" />
     <ClInclude Include="src\Colony\KeyCodes.h" />
