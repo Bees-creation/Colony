@@ -5,7 +5,6 @@ namespace Colony
 {
 	LayerStack::LayerStack()
 	{
-		m_LayerInsert = m_Layers.begin();
 	}
 
 	LayerStack::~LayerStack()
@@ -17,7 +16,8 @@ namespace Colony
 	void LayerStack::PushLayer(Layer* layer)
 	{
 		// 在插入位置插入普通图层，并更新插入位置
-		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
+		++m_LayerInsertIndex;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
@@ -33,7 +33,7 @@ namespace Colony
 		{
 			// 如果找到普通图层，则将其从图层堆栈中移除，并更新插入位置
 			m_Layers.erase(it);
-			m_LayerInsert--;
+			--m_LayerInsertIndex;
 		}
 	}
 

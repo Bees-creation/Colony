@@ -272,20 +272,3 @@ vector在增删数据时会自动调整内部元素的位置，因此不需要�
 调用`ImGui_ImplOpenGL3_NewFrame()`和`ImGui::NewFrame()`以新建GUI图窗；
 声明变量`static bool show`记录显示状态，调用`ImGui::ShowDemoWindow(&show);`设置显示窗口；
 调用`ImGui::Render();`和`ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());`进行渲染和显示渲染后图窗。
-### Q&A
-Q: 原作者使用的ImGui与现在所使用的ImGui（2025/12/13前后的版本）有何差异？
-A: 版本更新之后API接口有很多修改，我为此耗费了很多不必要的精力，然而最终我也不明白这个新接口是如何运作的，这是一个待完成的工作。在`imgui.cpp`中，我修改了
-   10025至10033行的代码，`GetMergedModsFromKeys()`函数的代码，原代码如下
-```
-static ImGuiKeyChord GetMergedModsFromKeys()
-{
-    ImGuiKeyChord mods = 0;
-    if (ImGui::IsKeyDown(ImGuiMod_Ctrl))     { mods |= ImGuiMod_Ctrl; }
-    if (ImGui::IsKeyDown(ImGuiMod_Shift))    { mods |= ImGuiMod_Shift; }
-    if (ImGui::IsKeyDown(ImGuiMod_Alt))      { mods |= ImGuiMod_Alt; }
-    if (ImGui::IsKeyDown(ImGuiMod_Super))    { mods |= ImGuiMod_Super; }
-    return mods;
-}
-```
-   我把`if`条件更改为了`ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)`，相应的其他键也做了更改。这使我的键盘输入中断处理函数
-   能够正确运行。

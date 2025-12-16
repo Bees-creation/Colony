@@ -7,6 +7,8 @@
 #include "Events/Event.h"
 #include "Colony/Events/ApplicationEvent.h"
 
+#include "Colony/ImGui/ImGuiLayer.h"
+
 namespace Colony
 {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -30,6 +32,7 @@ namespace Colony
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

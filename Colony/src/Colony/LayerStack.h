@@ -22,6 +22,6 @@ namespace Colony
 		std::vector<Layer*>::iterator end() { return m_Layers.end(); }
 	protected:
 		std::vector<Layer*> m_Layers;                  // 存储图层的向量
-		std::vector<Layer*>::iterator m_LayerInsert;   // 普通图层的插入位置
+		unsigned int m_LayerInsertIndex = 0;   // 普通图层的插入位置
 	};
 }

@@ -48,6 +48,7 @@ project "Colony"    -- 生成Colony项目
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
+		-- "%{IncludeDir.ImGui}/backends",    -- 临时项目
 		"%{IncludeDir.glm}"
 	}
 
@@ -56,7 +57,7 @@ project "Colony"    -- 生成Colony项目
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
+		-- "opengl32.lib"
 	}
 
 	filter "system:windows"
@@ -67,7 +68,8 @@ project "Colony"    -- 生成Colony项目
 		{
 			"CL_PLATFORM_WINDOWS",    -- windows平台 -- 这是代码内ifdef需要
 			"CL_BUILD_DLL",    -- 是否生成为dll -- 代码内ifdef需要
-			"GLFW_INCLUDE_NONE"    -- GLFW在include时排除所有系统级别的OpenGL头文件
+			"GLFW_INCLUDE_NONE",    -- GLFW在include时排除所有系统级别的OpenGL头文件
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 		postbuildcommands -- 生成后处理命令 -- 复制文件
@@ -112,6 +114,9 @@ project "Sandbox"
 	{
 		"Colony/vendor/spdlog/include",
 		"Colony/src",
+		-- "%{IncludeDir.GLFW}",    -- 临时项目
+		-- "%{IncludeDir.Glad}",    --
+		-- "%{IncludeDir.ImGui}",    --
 		"%{IncludeDir.glm}"
 	}
 
