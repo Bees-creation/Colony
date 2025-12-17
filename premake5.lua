@@ -23,9 +23,10 @@ include "Colony/vendor/imgui"
 
 project "Colony"    -- 生成Colony项目
 	location "Colony"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"    -- C++标准
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")    -- build文件.dll/.lib/.exe的输出目录
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")    -- build中间文件.o的输目录
@@ -59,7 +60,6 @@ project "Colony"    -- 生成Colony项目
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"    -- C++标准
 		systemversion "latest"    -- 最新版本的SDK
 
 		defines
@@ -67,13 +67,6 @@ project "Colony"    -- 生成Colony项目
 			"CL_PLATFORM_WINDOWS",    -- windows平台 -- 这是代码内ifdef需要
 			"CL_BUILD_DLL",    -- 是否生成为dll -- 代码内ifdef需要
 			"GLFW_INCLUDE_NONE",    -- GLFW在include时排除所有系统级别的OpenGL头文件
-			"_CRT_SECURE_NO_WARNINGS"
-		}
-
-		postbuildcommands -- 生成后处理命令 -- 复制文件
-		{
-			('if not exist "%{wks.location}/bin/' .. outputdir .. '/Sandbox" mkdir "%{wks.location}/bin/' .. outputdir .. '/Sandbox"'),
-			('{COPY} "%{wks.location}/bin/' .. outputdir .. '/Colony/Colony.dll" "%{wks.location}/bin/' .. outputdir .. '/Sandbox/"')
 		}
 
 		buildoptions "/utf-8" -- 命令行编译时使用/utf-8编码 -- spdlog库要求
@@ -81,23 +74,24 @@ project "Colony"    -- 生成Colony项目
 	filter "configurations:Debug"
 		defines "CL_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "CL_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "CL_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -121,7 +115,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -134,14 +127,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "CL_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "CL_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "CL_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
