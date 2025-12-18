@@ -196,6 +196,24 @@ void Begin();                                 // ImGui刷新帧
 void End();                                   // ImGui渲染
 ```
 
+## 渲染模块
+渲染模块包括创建上下文、顶点缓冲区、索引缓冲区、交换链等，Colony将这些封装为类以便于使用。
+### 渲染上下文
+<GraphicsContext.h>
+```cpp
+class GraphicsContext;                        // 图形上下文抽象类
+virtual void Init();                          // 初始化
+virtual void SwapBuffers();                   // 交换缓冲区
+```
+<OpenGLContext.h>
+```
+class OpenGLContext;                          // OpenGL上下文类
+OpenGLContext(GLFWwindow* windowHandle);      // 保存窗口指针
+void Init();
+void SwapBuffers();
+}
+```
+
 # Notes / Realizations / Q&A
 
 ## 窗口中断事件的实现逻辑

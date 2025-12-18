@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "Colony/Window.h"
-#include "GLFW/glfw3.h"
+#include "Colony/Renderer/GraphicsContext.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Colony
 {
@@ -27,6 +29,7 @@ namespace Colony
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

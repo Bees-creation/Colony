@@ -5,6 +5,8 @@
 #include "Colony/Events/KeyEvent.h"
 #include "Colony/Events/MouseEvent.h"
 
+#include "Colony/PlatForm/OpenGL/OpenGLContext.h"
+
 #include <glad/glad.h>
 
 namespace Colony
@@ -43,18 +45,14 @@ namespace Colony
 		{
 			// 初始化GLFW库
 			int success = glfwInit();
-			CL_CORE_ASSERT(success, "Could not initialize GLFW!");
-			glfwSetErrorCallback(GLFWErrorCallback);
+			CL_CORE_ASSERT(success, "Could not initialize GLFW!")
+				glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);    // 设置当前上下文为新创建的窗口
-
-		// gladLoadGLLoader是用来加载OpenGL函数指针的，glfwGetProcAddress是GLFW提供的获取OpenGL函数地址的函数
-		// 这里的语法是因为gladLoadGLLoader需要一个函数指针作为参数，而glfwGetProcAddress本身就是一个函数指针，类型是由typedef定义的。
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		CL_CORE_ASSERT(status, "Failed to initialize Glad!");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -156,7 +154,7 @@ namespace Colony
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
