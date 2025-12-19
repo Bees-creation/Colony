@@ -45,8 +45,8 @@ namespace Colony
 		{
 			// 初始化GLFW库
 			int success = glfwInit();
-			CL_CORE_ASSERT(success, "Could not initialize GLFW!")
-				glfwSetErrorCallback(GLFWErrorCallback);
+			CL_CORE_ASSERT(success, "Could not initialize GLFW!");
+			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 

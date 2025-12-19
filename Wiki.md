@@ -213,6 +213,45 @@ void Init();
 void SwapBuffers();
 }
 ```
+### 着色器
+<Shader.h>
+```cpp
+class Shader;                                 // 着色器类
+Shader();                                     // 获取顶点着色器和片段着色器源码并编译链接
+void Bind() const;                            // 绑定着色器到当前程序
+void Unbind() const;                          // 解除绑定
+```
+### 缓冲区
+<Buffer.h>
+```cpp
+class VertexBuffer;                                                  // 顶点缓冲区抽象类
+virtual ~VertexBuffer();
+virtual void Bind() const = 0;                                       // 绑定顶点缓冲区
+virtual void Unbind() const = 0;                                     // 解除绑定
+static VertexBuffer* Create(float* vertices, uint32_t size);         // 创建顶点数组
+
+class IndexBuffer;                                                   // 索引缓冲区抽象类
+virtual ~IndexBuffer();
+virtual void Bind() const = 0;                                       // 绑定索引缓冲区
+virtual void Unbind() const = 0;                                     // 解除绑定
+virtual uint32_t GetCount() const = 0;                               // 获取索引数量
+static IndexBuffer* Create(uint32_t* indices, uint32_t size);        // 创建索引数组
+};
+```
+<OpenGLBuffer.h>
+```cpp
+class OpenGLVertexBuffer : public VertexBuffer;                      // 顶点缓冲区的OpenGL实现类
+OpenGLVertexBuffer(float* vertices, uint32_t size);                  // 创建顶点缓冲区
+virtual ~OpenGLVertexBuffer();
+virtual void Bind() const;                                           // 绑定顶点缓冲区
+virtual void Unbind() const;                                         // 解除绑定
+class OpenGLIndexBuffer : public IndexBuffer;                        // 索引缓冲区的OpenGL实现类
+OpenGLIndexBuffer(uint32_t* indices, uint32_t count);                // 创建索引缓冲区
+virtual ~OpenGLIndexBuffer();
+virtual void Bind() const;                                           // 绑定索引缓冲区
+virtual void Unbind() const;                                         // 解除绑定
+virtual uint32_t GetCount() const;                                   // 获取索引数量
+```
 
 # Notes / Realizations / Q&A
 
@@ -290,3 +329,11 @@ vector在增删数据时会自动调整内部元素的位置，因此不需要�
 配置`io.ConfigFlags`结构体以配置输入输出；
 调用`Application& app = Application::Get();`和`GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());`以获取窗口指针；
 调用`ImGui_ImplGlfw_InitForOpenGL(window, true);`和`ImGui_ImplOpenGL3_Init();`函数以设置平台/渲染器后端；
+
+## 渲染相关 / 关于OpenGL渲染API的类封装
+渲染API目前封装为渲染器`Renderer`、着色器`Shader`、缓冲区`OpenGLBuffer`
+其中渲染器在`<Renderer.h>`中，使用一个枚举类型标记渲染器的版本。
+着色器类在`<Shader.h>`中声明，目前封装了OpenGL的API。在Application中默认定义了一个`Shader`结构体智能指针`m_Shader`，在Application类的构造函数中，将指针重设
+为`new Shader(new Shader(vertexSrc, fragmmentSrc))`此时传入的是着色器源码，然后在绘制图像的程序之前，调用`m_Shader->Bind()`即可应用着色器。
+缓冲区类在`<Shader.h>`中声明，在`<OpenGLShader.h>`的派生类中封装了OpenGL的API。在Application中默认定义了一个`VertexBuffer`指针和一个`IndexBuffer`指针，重复
+着色器类的逻辑，在Application类的构造函数中，重设指针，在各自派生类的构造函数中初始化缓冲区，然后在绘图程序中调用。
