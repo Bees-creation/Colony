@@ -1374,6 +1374,8 @@
     <ClInclude Include="src\Colony\Renderer\Buffer.h" />
     <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Colony\Renderer\Renderer.h" />
+    <ClInclude Include="src\Colony\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colony\Application.cpp">
@@ -1411,5 +1413,7 @@
     <ClCompile Include="src\Colony\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Colony\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Colony\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.cpp" />
   </ItemGroup>
 </Project>

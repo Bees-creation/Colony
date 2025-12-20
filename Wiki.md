@@ -224,6 +224,28 @@ void Unbind() const;                          // 解除绑定
 ### 缓冲区
 <Buffer.h>
 ```cpp
+enum class ShaderDataType;                                        // 顶点缓冲区数据类型枚举
+static uint32_t ShaderDataTypeSize(ShaderDataType type);          // 计算数据类型大小
+struct BufferElement;                                             // 缓冲区元素结构体
+std::string Name;                                                 // 元素名称
+ShaderDataType Type;                                              // 数据类型
+uint32_t Offset;                                                  // 偏移量
+uint32_t Size;                                                    // 数据大小
+bool Normalized;                                                  // 归一化
+BufferElement();
+BufferElement(ShaderDataType type, const std::string& name, bool normalized = false);
+uint32_t GetComponentCount() const;                               // 计算数据类型元素数量
+
+class BufferLayout;                                               // 缓冲区布局
+BufferLayout();
+BufferLayout(const std::initializer_list<BufferElement>& elements);
+inline uint32_t GetStride() const;                                // 获取缓冲区长度
+inline const std::vector<BufferElement>& GetElements() const;     // 获取缓冲区元素
+std::vector<BufferElement>::iterator begin();                     // 缓冲区元素迭代器
+std::vector<BufferElement>::iterator end();
+std::vector<BufferElement>::const_iterator begin() const;
+std::vector<BufferElement>::const_iterator end() const;
+
 class VertexBuffer;                                                  // 顶点缓冲区抽象类
 virtual ~VertexBuffer();
 virtual void Bind() const = 0;                                       // 绑定顶点缓冲区
@@ -332,8 +354,23 @@ vector在增删数据时会自动调整内部元素的位置，因此不需要�
 
 ## 渲染相关 / 关于OpenGL渲染API的类封装
 渲染API目前封装为渲染器`Renderer`、着色器`Shader`、缓冲区`OpenGLBuffer`
-其中渲染器在`<Renderer.h>`中，使用一个枚举类型标记渲染器的版本。
+### 渲染器
+渲染器在`<Renderer.h>`中，使用一个枚举类型标记渲染器的版本。
+### 着色器
 着色器类在`<Shader.h>`中声明，目前封装了OpenGL的API。在Application中默认定义了一个`Shader`结构体智能指针`m_Shader`，在Application类的构造函数中，将指针重设
 为`new Shader(new Shader(vertexSrc, fragmmentSrc))`此时传入的是着色器源码，然后在绘制图像的程序之前，调用`m_Shader->Bind()`即可应用着色器。
-缓冲区类在`<Shader.h>`中声明，在`<OpenGLShader.h>`的派生类中封装了OpenGL的API。在Application中默认定义了一个`VertexBuffer`指针和一个`IndexBuffer`指针，重复
+### 缓冲区 / 顶点缓冲区布局和访问
+缓冲区类在`<Buffer.h>`中声明，在`<OpenGLBuffer.h>`的派生类中封装了OpenGL的API。在Application中默认定义了一个`VertexBuffer`指针和一个`IndexBuffer`指针，重复
 着色器类的逻辑，在Application类的构造函数中，重设指针，在各自派生类的构造函数中初始化缓冲区，然后在绘图程序中调用。
+初始化顶点缓冲区布局逻辑如下：
+1. 创建一个`BufferLayout`类的实例`layout`，构造函数接收一个初始化列表`initializer_list<BufferElement>&`，并将其传入向量`vector<BufferElement> m_Elements`中，
+   `BufferElement`结构体的构造函数`BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)`，在初始化参数列表再调用根据类型判断
+   数据大小的函数`ShaderDataTypeSize(type)`，一共初始化四个顶点布局属性。
+2. 在`BufferLayout`的构造函数的函数体中调用`CalculateOffsetAndStride()`函数，计算出顶点布局步长。
+访问顶点缓冲区布局逻辑如下：
+1. 在OpenGL中，先调用`glEnableVertexAttribArray(index)`以启用索引为index的属性数组；
+2. 然后调用`glVertexAttribPointer(index, size, type, normalized, stride, pointer)`以设置顶点属性数组的数据格式，程序通过一个`BufferLayout`类的实例储存所有
+   顶点，在其私有成员`vector<BufferElement>`这个向量中，而每一个顶点就是`BufferElement`结构体的实例，所以`BufferLayout`类拥有计算顶点布局步长的函数。
+3. 在`BufferLayout`类中定义了迭代器，`begin()`和`end()`函数分别定义为`return m_Elements.begin()`和`return m_Elements.end()`，用以遍历`BufferLayout`实例中的
+   每一个顶点对象。使用`for(const auto& element : BufferLayout)`遍历，`element`是`BufferElement`结构体的实例，包含`Name``Type``Offset``Size``Normalized`成员
+   变量，可以直接访问变量传入函数中。
