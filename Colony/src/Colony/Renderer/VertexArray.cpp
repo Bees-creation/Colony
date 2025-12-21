@@ -11,8 +11,8 @@ namespace Colony
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:     CL_CORE_ASSERT(false, "None is currently not supported!"); return nullptr;
-		case RendererAPI::OpenGL:   return new OpenGLVertexArray();
+		case RendererAPI::API::None:     CL_CORE_ASSERT(false, "None is currently not supported!"); return nullptr;
+		case RendererAPI::API::OpenGL:   return new OpenGLVertexArray();
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");

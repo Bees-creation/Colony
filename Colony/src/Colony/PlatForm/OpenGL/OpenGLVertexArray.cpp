@@ -51,9 +51,9 @@ namespace Colony
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
-		CL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "顶点数组没有布局格式！")
+		CL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "顶点数组没有布局格式！");
 
-			uint32_t index = 0;
+		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{

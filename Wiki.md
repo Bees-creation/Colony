@@ -74,14 +74,14 @@ enum class EventType                      // 事件id枚举
 	MouseMoved            =   13,         // 鼠标移动事件
 	MouseScrolled         =   14,         // 鼠标滚动事件
 };
-enum EventCategory                        // 事件类型id枚举，可按位组合
+enum EventCategory                           // 事件类型id枚举，可按位组合
 {
 	None = 0,
-	EventCategoryApplication = BIT(0),    // 应用程序事件
-	EventCategoryInput       = BIT(1),    // 输入事件
-	EventCategoryKeyboard    = BIT(2),    // 键盘事件
-	EventCategoryMouse       = BIT(3),    // 鼠标事件
-	EventCategoryMouseButton = BIT(4)     // 鼠标按钮事件
+	EventCategoryApplication = BIT(0),       // 应用程序事件
+	EventCategoryInput       = BIT(1),       // 输入事件
+	EventCategoryKeyboard    = BIT(2),       // 键盘事件
+	EventCategoryMouse       = BIT(3),       // 鼠标事件
+	EventCategoryMouseButton = BIT(4)        // 鼠标按钮事件
 };
 #define EVENT_CLASS_TYPE(type)               // 用于批量定义返回事件id函数的宏
 #define EVENT_CLASS_CATEGORY(category)       // 用于批量定义返回事件类型id函数的宏
@@ -133,11 +133,11 @@ WindowProps(const string& title = "Colony Engine",
 	unsigned int width = 1280,
 	unsigned int height = 720);         // 构造函数，设置窗口标题、宽度和高度
 
-class Window;                                         // 窗口接口类，需要具体平台实现
-EventCallbackFn = function<void(Event&)>;             // 事件回调函数类型定义
-virtual void OnUpdate() = 0;                          // 窗口更新函数，处理窗口事件和缓冲区交换
-virtual unsigned int GetWidth() const = 0;            // 获取窗口宽度
-virtual unsigned int GetHeight() const = 0;           // 获取窗口高度
+class Window;                                            // 窗口接口类，需要具体平台实现
+EventCallbackFn = function<void(Event&)>;                // 事件回调函数类型定义
+virtual void OnUpdate() = 0;                             // 窗口更新函数，处理窗口事件和缓冲区交换
+virtual unsigned int GetWidth() const = 0;               // 获取窗口宽度
+virtual unsigned int GetHeight() const = 0;              // 获取窗口高度
 virtual void SetEventCallback(const EventCallbackFn& callback) = 0;    // 设置事件回调函数
 virtual void SetVSync(bool enabled) = 0;                               // 启用或禁用垂直同步
 virtual bool IsVSync() const = 0;                                      // 检查垂直同步是否启用
@@ -146,10 +146,10 @@ Window* Create(const WindowProps& props = WindowProps());              // 创建
 Platform模块包含了具体平台的窗口实现。
 <Colony/Platform/Windows/WindowsWindow.h>
 ```cpp
-class WindowsWindow;                                   // Windows平台的窗口实现类
-void onUpdate() override;                              // 重写窗口更新函数，处理Windows消息循环和缓冲区交换
-unsigned int getWidth() const override;                // 重写获取窗口宽度函数
-unsigned int getHeight() const override;               // 重写获取窗口高度函数
+class WindowsWindow;                                      // Windows平台的窗口实现类
+void onUpdate() override;                                 // 重写窗口更新函数，处理Windows消息循环和缓冲区交换
+unsigned int getWidth() const override;                   // 重写获取窗口宽度函数
+unsigned int getHeight() const override;                  // 重写获取窗口高度函数
 void setEventCallback(const EventCallbackFn& callback) override;       // 重写设置事件回调函数
 void setVSync(bool enabled) override;                                  // 重写启用或禁用垂直同步函数
 bool isVSync() const override;                                         // 重写检查垂直同步是否启用函数
@@ -216,10 +216,10 @@ void SwapBuffers();
 ### 着色器
 <Shader.h>
 ```cpp
-class Shader;                                 // 着色器类
-Shader();                                     // 获取顶点着色器和片段着色器源码并编译链接
-void Bind() const;                            // 绑定着色器到当前程序
-void Unbind() const;                          // 解除绑定
+class Shader;                       // 着色器类
+Shader();                           // 获取顶点着色器和片段着色器源码并编译链接
+void Bind() const;                  // 绑定着色器到当前程序
+void Unbind() const;                // 解除绑定
 ```
 ### 缓冲区
 <Buffer.h>
@@ -273,6 +273,31 @@ virtual ~OpenGLIndexBuffer();
 virtual void Bind() const;                                           // 绑定索引缓冲区
 virtual void Unbind() const;                                         // 解除绑定
 virtual uint32_t GetCount() const;                                   // 获取索引数量
+```
+### 顶点数组
+<VertexArray.h>
+```cpp
+class VertexArray                                                    // 顶点数组抽象类
+virtual ~VertexArray();
+virtual void Bind() const = 0;
+virtual void Unbind() const = 0;
+virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;            // 设定顶点缓冲区
+virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) = 0;               // 设定索引缓冲区
+virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const = 0;         // 获取顶点缓冲区数组指针
+virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;                         // 获取索引缓冲区数组指针
+static VertexArray* Create();                                        // 创建顶点数组函数，根据渲染API创建派生类实例并返回指针
+```
+<OpenGLVertexArray.h>
+```cpp
+class OpenGLVertexArray : public VertexArray                         // 顶点数组的OpenGL实现类
+OpenGLVertexArray();                                                 // 创建顶点数组
+virtual ~OpenGLVertexArray();                                        // 删除顶点数组
+virtual void Bind() const override;                                  // 绑定顶点数组
+virtual void Unbind() const override;                                // 解除绑定
+virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;       // 设定顶点缓冲区
+virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;          // 设定索引缓冲区
+virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers();                   // 获取顶点缓冲区数组指针
+virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer();                                   // 获取索引缓冲区数组指针
 ```
 
 # Notes / Realizations / Q&A
@@ -359,18 +384,25 @@ vector在增删数据时会自动调整内部元素的位置，因此不需要�
 ### 着色器
 着色器类在`<Shader.h>`中声明，目前封装了OpenGL的API。在Application中默认定义了一个`Shader`结构体智能指针`m_Shader`，在Application类的构造函数中，将指针重设
 为`new Shader(new Shader(vertexSrc, fragmmentSrc))`此时传入的是着色器源码，然后在绘制图像的程序之前，调用`m_Shader->Bind()`即可应用着色器。
-### 缓冲区 / 顶点缓冲区布局和访问
-缓冲区类在`<Buffer.h>`中声明，在`<OpenGLBuffer.h>`的派生类中封装了OpenGL的API。在Application中默认定义了一个`VertexBuffer`指针和一个`IndexBuffer`指针，重复
-着色器类的逻辑，在Application类的构造函数中，重设指针，在各自派生类的构造函数中初始化缓冲区，然后在绘图程序中调用。
+### 缓冲区数组的创建和访问
+1. 缓冲区类在`<Buffer.h>`中声明，在`<OpenGLBuffer.h>`的派生类中封装了OpenGL的API。另外分别在`<VertexArray.h>`和`<OpenGLVertexArray.h>`中声明和实现了顶点数组，
+   在Application中默认定义了`std::shared_ptr<VertexArray>`指针，在Application类构造函数中，将指针重设为`VertexArray::Create()`，该函数根据渲染器的版本自动创建
+   顶点数组实例。
+2. 在Application函数中定义`VertexBuffer`指针和`IndexBuffer`指针，将指针重设为`VertexBuffer::Create(vertices, sizeof(vertices))`，该函数根据渲染器的版本自动
+   创建。
+3. 设置顶点缓冲区布局，调用顶点数组类的`AddVertexBuffer(vertexBuffer)`成员函数，传入一个顶点缓冲区指针。
+4. 对索引缓冲区重复这样的操作，不同的是索引缓冲区只有一组数据。
+### 顶点缓冲区布局创建和访问
 初始化顶点缓冲区布局逻辑如下：
 1. 创建一个`BufferLayout`类的实例`layout`，构造函数接收一个初始化列表`initializer_list<BufferElement>&`，并将其传入向量`vector<BufferElement> m_Elements`中，
    `BufferElement`结构体的构造函数`BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)`，在初始化参数列表再调用根据类型判断
-   数据大小的函数`ShaderDataTypeSize(type)`，一共初始化四个顶点布局属性。
+   数据大小的函数`ShaderDataTypeSize(type)`，一共初始化四个顶点布局属性；
 2. 在`BufferLayout`的构造函数的函数体中调用`CalculateOffsetAndStride()`函数，计算出顶点布局步长。
 访问顶点缓冲区布局逻辑如下：
-1. 在OpenGL中，先调用`glEnableVertexAttribArray(index)`以启用索引为index的属性数组；
-2. 然后调用`glVertexAttribPointer(index, size, type, normalized, stride, pointer)`以设置顶点属性数组的数据格式，程序通过一个`BufferLayout`类的实例储存所有
-   顶点，在其私有成员`vector<BufferElement>`这个向量中，而每一个顶点就是`BufferElement`结构体的实例，所以`BufferLayout`类拥有计算顶点布局步长的函数。
-3. 在`BufferLayout`类中定义了迭代器，`begin()`和`end()`函数分别定义为`return m_Elements.begin()`和`return m_Elements.end()`，用以遍历`BufferLayout`实例中的
+1. 该逻辑定义在`AddVertexBuffer()`函数中；
+2. 在OpenGL中，先调用`glEnableVertexAttribArray(index)`以启用索引为index的属性数组；
+3. 然后调用`glVertexAttribPointer(index, size, type, normalized, stride, pointer)`以设置顶点属性数组的数据格式，程序通过一个`BufferLayout`类的实例储存所有
+   顶点，在其私有成员`vector<BufferElement>`这个向量中，而每一个顶点就是`BufferElement`结构体的实例，所以`BufferLayout`类拥有计算顶点布局步长的函数；
+4. 在`BufferLayout`类中定义了迭代器，`begin()`和`end()`函数分别定义为`return m_Elements.begin()`和`return m_Elements.end()`，用以遍历`BufferLayout`实例中的
    每一个顶点对象。使用`for(const auto& element : BufferLayout)`遍历，`element`是`BufferElement`结构体的实例，包含`Name``Type``Offset``Size``Normalized`成员
    变量，可以直接访问变量传入函数中。

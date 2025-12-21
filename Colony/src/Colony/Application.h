@@ -13,6 +13,8 @@
 #include "Colony/Renderer/Buffer.h"
 #include "Colony/Renderer/VertexArray.h"
 
+#include "Colony/Renderer/OrthographicCamera.h"
+
 namespace Colony
 {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -47,6 +49,8 @@ namespace Colony
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	};
 
 	// To be defined in CLIENT
