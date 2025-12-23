@@ -22,6 +22,9 @@
     <Filter Include="src\Colony\PlatForm\Windows">
       <UniqueIdentifier>{3E284030-AA35-6E16-331C-6A019F283ACD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Colony\Renderer">
+      <UniqueIdentifier>{764D1583-E2AE-F290-6B1C-3943D77C2950}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -99,11 +102,47 @@
     <ClInclude Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRendererLoader.h">
       <Filter>src\Colony\PlatForm\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLContext.h">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Colony\PlatForm\Windows\WindowsInput.h">
       <Filter>src\Colony\PlatForm\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Colony\PlatForm\Windows\WindowsWindow.h">
       <Filter>src\Colony\PlatForm\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\Buffer.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\GraphicsContext.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\OrthographicCamera.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\RenderCommand.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\Renderer.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\RendererAPI.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\Shader.h">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Colony\Renderer\VertexArray.h">
+      <Filter>src\Colony\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Colony\Window.h">
       <Filter>src\Colony</Filter>
@@ -1368,18 +1407,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Colony\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\Colony\Renderer\Shader.h" />
-    <ClInclude Include="src\Colony\Renderer\Buffer.h" />
-    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\Colony\Renderer\Renderer.h" />
-    <ClInclude Include="src\Colony\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\Colony\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Colony\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\Colony\PlatForm\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Colony\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Colony\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colony\Application.cpp">
@@ -1403,25 +1431,47 @@
     <ClCompile Include="src\Colony\PlatForm\OpenGL\ImGuiOpenGLRenderer.cpp">
       <Filter>src\Colony\PlatForm\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Colony\PlatForm\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Colony\PlatForm\Windows\WindowsInput.cpp">
       <Filter>src\Colony\PlatForm\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp">
       <Filter>src\Colony\PlatForm\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\Buffer.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\RenderCommand.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\Renderer.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\RendererAPI.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\Shader.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Colony\Renderer\VertexArray.cpp">
+      <Filter>src\Colony\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\clpcl.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\Colony\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Colony\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\Colony\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\Colony\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\Colony\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\Colony\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\Colony\Renderer\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>

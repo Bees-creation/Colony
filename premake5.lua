@@ -105,6 +105,7 @@ project "Sandbox"
 	includedirs
 	{
 		"Colony/vendor/spdlog/include",
+		"Colony/vendor/imgui",
 		"Colony/src",
 		"%{IncludeDir.glm}"
 	}

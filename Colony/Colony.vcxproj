@@ -140,6 +140,7 @@
     <ClInclude Include="src\Colony.h" />
     <ClInclude Include="src\Colony\Application.h" />
     <ClInclude Include="src\Colony\Core.h" />
+    <ClInclude Include="src\Colony\Core\Timestep.h" />
     <ClInclude Include="src\Colony\EntryPoint.h" />
     <ClInclude Include="src\Colony\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Colony\Events\Event.h" />
@@ -605,9 +606,6 @@
     <ClCompile Include="src\Colony\PlatForm\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Colony\PlatForm\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Colony\PlatForm\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="src\clpcl.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\Colony\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Colony\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Colony\Renderer\RenderCommand.cpp" />
@@ -615,6 +613,9 @@
     <ClCompile Include="src\Colony\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Colony\Renderer\Shader.cpp" />
     <ClCompile Include="src\Colony\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\clpcl.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

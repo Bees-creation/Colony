@@ -7,13 +7,9 @@
 #include "Events/Event.h"
 #include "Colony/Events/ApplicationEvent.h"
 
+#include "Colony/Core/Timestep.h"
+
 #include "Colony/ImGui/ImGuiLayer.h"
-
-#include "Colony/Renderer/Shader.h"
-#include "Colony/Renderer/Buffer.h"
-#include "Colony/Renderer/VertexArray.h"
-
-#include "Colony/Renderer/OrthographicCamera.h"
 
 namespace Colony
 {
@@ -36,21 +32,14 @@ namespace Colony
 		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
 	};
 
 	// To be defined in CLIENT
